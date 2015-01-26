@@ -62,7 +62,9 @@ coinsert 'typesys'  NB. inside a locale you want to use type system
 1. You could define 2 shaddow names for c and v.  Say C and V.  You can globally redefine C and V from c and v when you want to turn on C and V type checking/coercion, and to noP (no op) when you want to turn it off.
 
 2. by removing/adding a comment header.  For instance the type checked test function's header is:
+ 
         NB. function with type anotation: takes 2 item items, with one string, and one Farenheit temperature. Makes sure to fail if not 2 items per item
+
         testf =: [: 3 : 0 ( 'str';'inCelcius inFaren2') cV_temperature_  each '2&count' v_temperature_ "1 ]
 
 to turn off the type interactions (perhaps to rule out errors) the following comment edit can be applied:
