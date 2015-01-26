@@ -10,7 +10,14 @@ Note 'towards a J type system'
 	Verbs can be more straightforwardly applied to x and y arguments.
 	Adverbs can be chained infinitely
 )
- require jpath '~/zutils.ijs'
+NB. require jpath '~/zutils.ijs'
+cocurrent 'z'
+pD_z_ =:  1!:2&2
+eval_z_ =: 1 : ' a: 1 :  m'
+hook_z_ =: 2 : '([: u v) : (u v) '
+lrA_z_ =: 1 : '5!:5 < ''u'''
+linearize =: (, $~ 1 -.~ $)
+
 NB. like Fork.  Adverb creates a conjunction. whose result is (f@:[ g h@:]) g is adverb parameter. f and h are u and v of conjunction result.
 Fxhy_z_ =: 1 : ' 2 : (''u@:[ '' , ''('', u lrA , '')'' , '' v@:]'')'
 
