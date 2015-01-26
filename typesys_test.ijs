@@ -34,8 +34,8 @@ Miami 77 Far
 ISS 6 K
 Moon 111 moonK
 )
-NB. function with type anotation: takes 2 item items, with one string, and one Farenheit temperature.
-testf =: [: 3 : 0 ( 'str';'inCelcius inFaren2') cV_temperature_  each "1 ]
+NB. function with type anotation: takes 2 item items, with one string, and one Farenheit temperature. Makes sure to fail if not 2 items per item
+testf =: [: 3 : 0 ( 'str';'inCelcius inFaren2') cV_temperature_  each '2&count' v_temperature_ "1 ]
 pD ] y
 +/ 1 Y"1 y
 )
@@ -58,6 +58,7 @@ test =: [: ". each 0 : 0 cutLF@:[ ]
 +: 'num' v '2&count' c 'num' c each '123';123 44 55
 +: 'num' v  'num 2&count' c each '123';123 44 55
 ('num';'2&count') ([  cV each {.@:[ cV each ivV each) '123';123 44 55
-)
 
+)
+NB. testf 5; {. SCRAPEDATA  NB. produces intentional count error
 pD testf SCRAPEDATA

@@ -26,7 +26,7 @@ intify =: <.@numerify
 roundify =: 0.5 <.@+ numerify
 inrange =: (1 X >: ]) *.&(*./) 0 X <: ]
 raiseErr =: 4 : '0 assert~ ''forced error: '', x'
-NB. sTYPES =: a: (2 insertitem)"1 (9{a.) cut &> cutLF 0 : 0  NB. adds empty column for parameterized type/validations
+NB. sTYPES =: a: (2 insertitem)"1 (9{a.) cut &> cutLF 0 : 0  NB. tab delimited 4 items.  TypeName CoercionFunction ValidationTest ErrorText
 sTYPES =: (9{a.) cut &> cutLF 0 : 0  NB. adds empty column for parameterized type/validations
 num	0&".				1 4 8 16 64 128 e.~ 3!:0	Must be numeric
 int	intify				1 4 64  e.~ 3!:0		Must be integer
@@ -34,6 +34,7 @@ intR	roundify				1 4 64  e.~ 3!:0		Must be roundable to interger
 str	":				2 = 3!:0			Must be string
 byteVals	a.&i.			0 255&(inrange :: 0:) *. 1 4 e.~ 3!:0	Must be convertable to byte list
 ascii	'unconvertible'&raiseErr`({&a.)@.(0 255&inrange) 	2 = 3!:0		Must be convertable to ascii
+no1dim	, $~ 1 -.~ $			[: -.@:notfalse 1 e.~ $	Must not include any shapes of 1
 )
 NB. separate dyadic list for clarity.
 TYPES =: sTYPES , (9{a.) cut &> cutLF 0 : 0
@@ -92,3 +93,7 @@ vV =: 4 : '] x v y'
 ivV =: 4 : '] x cv y' 
 ci =: [ cV ivV  NB. verb that will first give input box check for failed validations, then coerce values.
 
+PolyAppend =: ([ , (('num';'str') {::~ 2 = 3!:0) cV Fxhy ]) NB. coerces left argument to match type of right arg so that , works as in ruby/python.
+
+NB. 'as ' PolyAppend 3
+NB. 2 PolyAppend '3'
