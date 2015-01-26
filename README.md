@@ -72,3 +72,11 @@ to turn off the type interactions (perhaps to rule out errors) the following com
         testf =: [: 3 : 0 ]   NB.           ( 'str';'inCelcius inFaren2') cV_temperature_  each '2&count' v_temperature_ "1 ]
         
 that edit (and original) also gives the function protection from domain errors if called dyadically.        
+
+**understanding the code**
+
+the type system uses an advanced J feature of returning an adverb from the c and v adverbs.
+
+'num' c       NB. returns adverb.  Needs verb parameter  
++/ 'num' c    NB. this is now a verb.  Sum with type coercion to numeric  
++/ 'num' c  '1 2 3'   NB. will return numeric value 6. verb applied to noun returns noun.  
