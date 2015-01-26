@@ -70,3 +70,5 @@ coinsert 'typesys'  NB. inside a locale you want to use type system
 to turn off the type interactions (perhaps to rule out errors) the following comment edit can be applied:
         
         testf =: [: 3 : 0 ]   NB.           ( 'str';'inCelcius inFaren2') cV_temperature_  each '2&count' v_temperature_ "1 ]
+        
+that edit (and original) also gives the function protection from domain errors if called dyadically.        
