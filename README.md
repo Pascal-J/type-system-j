@@ -1,14 +1,14 @@
 # type-system-j
-adds an optional type system to J language
+The J language is ultradynamic in that functions usually have no named parameters much less typed parameters.  These files add an optional type system to the J language.
 
-to use, put all files in home folder.  If placing them elsewhere, change paths for require lines.  typesys_test file will load all of the other files.
+to use, put all files in your home folder.  If placing them elsewhere, change paths for require lines.  typesys_test file will load all of the other (2) files.
 
 
-The benefits of type system include
+The benefits of a type system include
 
 * catch errors in parts of a program due to changes in another part
 * document use of functions
-* Help compiler optimize code
+* Help compilers optimize code
 
 Nice to have features that this J system provides are:
 
@@ -18,7 +18,7 @@ regardless of above advantages, optional typing allows quicker to write and shor
 
 **Type system should be user defined**
 
-regardless of compiler advantages a function can be defined to operate on any number.  Not just a specific narrow type of number.  A function that takes a point should be able to take any pair of numbers.
+regardless of compiler advantages a function can be defined to operate on any number.  Not just a specific narrow type of number.  A function that takes an X,Y point should be able to take any pair of numbers.
 
 **Type system should be able to validate whole arguments (record validation vs field validation)**
 
