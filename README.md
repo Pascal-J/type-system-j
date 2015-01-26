@@ -78,5 +78,9 @@ that edit (and original) also gives the function protection from domain errors i
 the type system uses an advanced J feature of returning an adverb from the c and v adverbs.
 
 'num' c       NB. returns adverb.  Needs verb parameter  
-+/ 'num' c    NB. this is now a verb.  Sum with type coercion to numeric  
++/ 'num' c    NB. this is now a verb.  Sum with type coercion to numeric.  Means you can assign this to a name as a verb.  
 +/ 'num' c  '1 2 3'   NB. will return numeric value 6. verb applied to noun returns noun.  
+2 +/ 'num' c  '1 2 3' NB. returns 3 4 5.  Above verb is ambivalent verb.  Though in this version only y argument is coerced.
+'2' +/&('num'&cV)  '1 2 3'  NB. returns same as above but coerces both arguments. 
+
+cV and vV are the verb equivalents to the adverb forms.  The adverb form is sometimes cleaner in simple cases, and sometimes the binding to a compound verb phrase is wanted.
