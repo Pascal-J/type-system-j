@@ -1,7 +1,7 @@
 # type-system-j
 The J language is ultradynamic in that functions usually have no named parameters much less typed parameters.  These files add an optional type system to the J language.
 
-to use, put all files in your home folder.  If placing them elsewhere, change paths for require lines.  typesys_test file will load all of the other (2) files.
+to use, put all files in your home folder.  If placing them elsewhere, change paths for require lines.  typesys_test file will load the other file.
 
 
 The benefits of a type system include
