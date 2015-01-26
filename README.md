@@ -84,3 +84,14 @@ the type system uses an advanced J feature of returning an adverb from the c and
 '2' +/&('num'&cV)  '1 2 3'  NB. returns same as above but coerces both arguments. 
 
 cV and vV are the verb equivalents to the adverb forms.  The adverb form is sometimes cleaner in simple cases, and sometimes the binding to a compound verb phrase is wanted.
+
+
+**limitations**
+
+parameterized types are limited to either several numeric parameters or a single text parameter. Based on J's ;: parsing of words.  so.
+
+'num 1 2 3&myptype' NB. ok. 1 2 3 is parameter to myptype  
+'num str mypar&myptype'  NB. ok as long as mypar was the only parameter to myptype you wanted to pass.  num and str are other types.
+
+
+
