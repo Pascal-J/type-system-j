@@ -26,7 +26,7 @@ intify =: <.@numerify
 roundify =: 0.5 <.@+ numerify
 inrange =: (1 X >: ]) *.&(*./) 0 X <: ]
 raiseErr =: 4 : '0 assert~ ''forced error: '', x'
-NB. sTYPES =: a: (2 insertitem)"1 (9{a.) cut &> cutLF 0 : 0  NB. tab delimited 4 items.  TypeName CoercionFunction ValidationTest ErrorText
+NB.  TypeName CoercionFunction ValidationTest ErrorText
 sTYPES =: (9{a.) cut &> cutLF 0 : 0  NB. adds empty column for parameterized type/validations
 num	0&".				1 4 8 16 64 128 e.~ 3!:0	Must be numeric
 int	intify				1 4 64  e.~ 3!:0		Must be integer
@@ -43,7 +43,7 @@ gthan	maybenum@[ >. ]		maybenum@:[ *./@:<: ]		Must be greater or equal than x
 lthan	maybenum@[ <. ]		maybenum@:[ *./@:>: ]		Must be lesser or equal than x
 inrange	'unconvertable' raiseErr ]	maybenum@:[ inrange  ]		Must be within range
 )
-wd2=: 3 : 'wd y'
+wd2=: 3 : 'wd y' NB. bug workaround
 typeparser =: boxopen L:1@:(> L:1)@:([: (4 : 0)/ '&'&cut)
   (}: , (}. y),~ [:< ({. y) ,~&< {:) ;: >x
 )
