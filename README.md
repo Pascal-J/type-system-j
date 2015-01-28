@@ -36,11 +36,14 @@ A parameterized type is a type that takes a parameter.  '2&count' is a type that
 The type 'num 0 255&inrange' is a compound type that if it is in coercion mode, will first coerce the field to numeric, and then coerce it to be in range of 0 to 255.  In the typesys_test.ijs file is a toy sample class to work with temperature data.
 The compound type 'inCelcius inFaren2' converts text data into numbers representing Celcius temperatures, and then inFaren2 is a simple function to convert Celcius numbers to Farenheit numbers.  Compound types allow coercion chains where rightmost elements can depend on left coercions for their input format.  In the latter case the function expects to receive Celcius temperatures but will work with farenheit temperatures.
 
+**Type system should allow several interactions with types with change of a single keyword**
+coercion and hard validation are the 2 main alternatives.  But then so is validating each item of input, and then so is filtering based on valid input.  An in-between state between coercion and validation is to coerce but leave a trace message of what was coerced, and this further allows selection upon a continuum of dynamic vs. static typing.
+
 # Using the type system
 
-Coercers and validators are the 2 key concepts of this type system.  A validator uses a type to raise an error when input is non conforming.  A coercer uses the same type info to try to convert the data into a valid input form.  The c keyword applies a coercer adverb.  The v keyword takes the same inputs and applies a validation adverb.
+Coercers and validators are the 2 key concepts of this type system.  A validator uses a type to raise an error when input is non conforming.  A coercer uses the same type info to try to convert the data into a valid input form.  The c keyword applies a coercer adverb.  The cp adverb coerces while leaving a trace message.  The v keyword takes the same inputs as c and cp and applies a validation adverb (raises error if fails).  the vb adverb returns a list of booleans signalling pass/fail for each item.  The vbs adverb selects only the items that passed (without any coercion on fails) to provide to the function, and so every type you define can also be used as a filter, and while all J functions have an intrinsic map (from functional programming) capcity, typed J functions can gain instrinsic filter map capacity.
 
-Some cute variations on validators are the iv adverb which instead of raising an error, pops up an inputbox where the user can correct the input (title of type, message of errortext, and value of raw input).  Verb versions of all of these adverbs exist.  Another cute verb is ci, which will bring up an input box for any values that it will coerce, and let the user change the value prior to automatic coercion.
+A cute variation on validators is the iv adverb which instead of raising an error, pops up an inputbox where the user can correct the input (title of type, message of errortext, and value of raw input).  Verb versions of all of these adverbs exist.  Another cute verb is ci, which will bring up an input box for any values that it will coerce, and let the user change the value prior to automatic coercion.
 
 ** Defining types **
 
@@ -57,11 +60,19 @@ the typesys_test file has a toy class that adds custom types to only its own pri
 require jpath '~/typesys.ijs'  NB. assumes location to be home directory
 coinsert 'typesys'  NB. inside a locale you want to use type system
 
+after loading typesys_test.ijs, run
+
+test ''
+testC ''
+
+The commands will display many examples of the type system in a hopefully easy to follow way.
+
+
 **2 ways to turn type system on and off**
 
-1. You could define 2 shaddow names for c and v.  Say C and V.  You can globally redefine C and V from c and v when you want to turn on C and V type checking/coercion, and to noP (no op) when you want to turn it off.
+1. There is a  shaddow name for c and v.  It is t.  You can globally redefine t to any type processing function including a special function called off that bypasses any type checks.  You can also use off to merely have the commenting value of type annotations, or as a placeholder to apply types you have yet to define.
 
-2. by removing/adding a comment header.  For instance the type checked test function's header is:
+2. by removing/adding a comment to the header.  For instance the type checked test function's header is:
  
         NB. function with type anotation: takes 2 item items, with one string, and one Farenheit temperature. Makes sure to fail if not 2 items per item
 
