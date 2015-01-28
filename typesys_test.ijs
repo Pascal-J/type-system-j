@@ -62,7 +62,8 @@ strict_typesys_ 0		NB.
 2 ('num'vV PolyAppend)/ '345 234 3'
 ] 'int 2&gthan' vb  '6' ; 3 ;1 ;2 ;4 ;5.3	NB. vb applies each automatically returns open boolean list
 #~ 'num 2&gthan' vb  '6' ; 3 6;1 2 ;4 5.3	NB. all types must match for vb to return 1
-#~ 'int 2&gthan' vb  'int' c 3 1 2 4 5.6	NB. int is flakey in that if there is one float in unboxed list, they are all floats.
++: 'int 2&gthan' vbs  'int' c 3 1 2 4 5.6	NB. int is flakey in that if there is one float in unboxed list, they are all floats.  vbs is vbwith selection applied to another verb. identical pattern with other type processors.
++: 'int 2&gthan' off  'int' off 3 1 2 4 5.6	NB. all type processors are compatible and can be turned (replaced by) off
 )
 
 testC =: 'no test crashed' [ [: pD@:".@:(pD@:('  ', ":) sfX) each 0 : 0 cutLF@:[ ]

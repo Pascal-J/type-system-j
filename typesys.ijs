@@ -159,3 +159,4 @@ ci =: [ cV ivV  NB. verb that will first give input box check for failed validat
 cpV =: 4 : '] x cp y' 
 vbV =: 4 : '] x vb y'
 vbs =: 1 : 'u 1 : ''#~ m vb'''  NB. double adverb is compatible with t. instead of coercing, filters valid items to function.
+off =: 1 : 'u  1 : '' hook ]'''  NB. can be used to turn off type system.  redefine any of c, cp, v, iv, vbs to off, and all code will/should work without type checks/actions
