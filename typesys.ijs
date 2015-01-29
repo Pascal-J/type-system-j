@@ -26,7 +26,7 @@ notfalse =: 0:`((0~: ]) *.(a:~:]))@.(0<#@:])(+./@:) NB. :: 0:
 
 NB. like Fork.  Adverb creates a conjunction. whose result is (f@:[ g h@:]) g is adverb parameter. f and h are u and v of conjunction result.
 Fxhy_z_ =: 1 : ' 2 : (''u@:[ '' , ''('', u lrA , '')'' , '' v@:]'')'
-
+daS =: 2 : (' a =. (u lrA , '' u '' , n) label_. 1 : (''u  1 :'' , quote a)')  NB. allows swapping order of double adverb arguments.  ex: 'num' +: daS 'c'
 
 coclass 'typesys'
   noP =: 1 : ']'
