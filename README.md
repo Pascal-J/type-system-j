@@ -45,6 +45,12 @@ Coercers and validators are the 2 key concepts of this type system.  A validator
 
 A cute variation on validators is the iv adverb which instead of raising an error, pops up an inputbox where the user can correct the input (title of type, message of errortext, and value of raw input).  Verb versions of all of these adverbs exist.  Another cute verb is ci, which will bring up an input box for any values that it will coerce, and let the user change the value prior to automatic coercion.
 
+** vm mode (functional errors) **
+
+f 'type' vm uses a "maybe/option" type for dealing with errors.  function results are either the result, the type mismatch, or other error raised by the function.  Helper adverbs exist to deal with "maybe types" or even mixed and matched maybe and raw types.  There is a choice to deal with errors at infinite rank (return error if any value fails) or at the item rank (process each item and return either result or error in boxed form).  Multiple failed validations and errors are also supported.  Run vmtest '' for an illustration of this mode.
+
+This is similar to Haskell/Rust error system.  Except it is much cleaner in that all error handling is dealt with in the function definition header.  All of the coercers and validators can be applied to functions that don't need to be concerned with types.
+
 ** Defining types **
 
 Types have 4 fields defined in a data driven tab delimited part of code. The fields are:
@@ -64,6 +70,7 @@ after loading typesys_test.ijs, run
 
 test ''
 testC ''
+vmtest ''
 
 The commands will display many examples of the type system in a hopefully easy to follow way.
 
