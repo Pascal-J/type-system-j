@@ -81,4 +81,17 @@ testC =: 'no test crashed' [ [: pD@:".@:(pD@:('  ', ":) sfX) each 0 : 0 cutLF@:[
 )
 
 
-NB. testf 5; {. SCRAPEDATA  NB. produces intentional count error
+vmtest =: 'no test crashed' [ [: pD@:".@:(pD@:('  ', ":) sfX) each 0 : 0 cutLF@:[ ]
+   ( 2 + mkerr 4)         NB. mkerr creates a maybe value (,. 0) if no error
+   ( a: + mkerr 4)        NB. left value not ,. 0 is an error, with right value error text
+  +: chkerrA ( a: + mkerr 4)  NB. chkerrA (adverb) either returns the previous error 
+  +: chkerrA ( 2 + mkerr 4)   NB. or u parameter computes the value.
+  4 + M +: chkerrA ( a: + mkerr 4)  NB. M is like chkerrA, but also accepts raw data (in addition to Maybe structures)
+  4 + M +: chkerrA ( 2 + mkerr 4)
+  +:    'int 0&gthan' vm i: 3  NB. vm returns "maybes" or results
+  +:    'int 0&gthan' vm i. 3
+  '5' ('num'&cpV   +M Fxhy  'int 0&gthan _1 3&inrange'&vmV) each i: 4    NB. call with each to get boxes of results and errors
+  +: M each (5   +M  'int 0&gthan _1 3&inrange'&vmV) each i: 4    NB. M allows chaining to other functions.
+  (5   +M 'int 0&gthan'&vmV) each (;/ _5.1 5.1) , ;/ i: 3     NB. failure of int
+  +: M each  (5 + mkerr 'int 0&gthan _1 3&inrange'&cpV) each i: 4   NB. cp can't deal with range coercion (not implemented).  so mkerr can be used to safely pass results that may include domain errors.
+)

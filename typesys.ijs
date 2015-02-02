@@ -11,6 +11,7 @@ Note 'towards a J type system'
 	Adverbs can be chained infinitely
 )
 NB. require jpath '~/zutils.ijs'
+require 'format/printf'
 cocurrent 'z'
 pD_z_ =:  1!:2&2
 eval_z_ =: 1 : ' a: 1 :  m'
@@ -53,18 +54,18 @@ any	]					1:			Test will always pass. Any param.
 )
 NB. separate dyadic (parametrized) typelist for clarity.  Parameters always passed as string. maybenum converts if number is correct, otherwise likely an error.
 DYNTYPES =: sDYNTYPES , (9{a.) cut &> cutLF 0 : 0
-count	maybenum {.Fxhy ]		maybenum =Fxhy #			count must be equal to x
-gthan	maybenum@[ >. ]		maybenum@:[ *./@:<: ]		Must be greater or equal than x	
-lthan	maybenum@[ <. ]		maybenum@:[ *./@:>: ]		Must be lesser or equal than x
-inrange	'unconvertable' raiseErr ]	maybenum@:[ inrange  ]		Must be within range of 0x to 1x
-unboxed	<@:[ cV every ]		0 = L.@:]				Must be coerceable to parameter type then unboxed
-each	<@:[ cV each ]		<@:[ vV each ]			Must be coerceable to parameter type then unboxed (this type stil flakey)
-every	<@:[ cV every ]		<@:[ vV every ]			Must be coerceable to parameter type then unboxed (this type stil flakey)
+count	maybenum {.Fxhy ]		maybenum =Fxhy #			count must be equal to %s
+gthan	maybenum@[ >. ]		maybenum@:[ *./@:<: ]		Must be greater or equal than %s	
+lthan	maybenum@[ <. ]		maybenum@:[ *./@:>: ]		Must be lesser or equal than %s
+inrange	'unconvertable' raiseErr ]	maybenum@:[ inrange  ]		Must be within range of %s
+unboxed	<@:[ cV every ]		0 = L.@:]				Must be coerceable to parameter %s (type) then unboxed
+each	<@:[ cV each ]		<@:[ vV each ]			Must be coerceable to parameter %s (type) then unboxed (this type stil flakey)
+every	<@:[ cV every ]		<@:[ vV every ]			Must be coerceable to parameter %s (type) then unboxed (this type stil flakey)
 )
 NB. version meant to duplicate above "more permissive" Dynamic Types.  Dynamic types are usually optimized for coercion efficiency.  Strict for validation correctness. 
 STRICTTYPES =: (9{a.) cut &> cutLF 0 : 0
 num	maybenum			([: *./ (": -: [: ": (0&".)^:(2=3!:0)) every)	Must be numeric
-gthan	maybenum@[ >. ]		maybenum@:[ *./@:<: 'num' vV ] 		Must be greater or equal than x
+gthan	maybenum@[ >. ]		maybenum@:[ *./@:<: 'num' vV ] 		Must be greater or equal than %s
 )
 
 TYPES =: DYNTYPES NB. default is dynamic, as not all types may be shaddowed by STRICT
@@ -109,7 +110,8 @@ a =. typeparser m
 o =. ]
 for_i. boxopen a do. d =.  linearize >^:(1 < L.)^:_ i 
 b=. ({~ ({: d) i.~ {."1) TYPES    NB. index error means type not defined (misspelled?) in this locale.
-if. 1 < # d do. o =.  ((3 Y b) assert sfX (0 Y d) (2 Y b) eval :: 0: ])   sfX @:o f.
+if. 1 < # d do. e =. (3 Y b) sprintf {. d
+ o =.  (e assert sfX (0 Y d) (2 Y b) eval :: 0: ])   sfX @:o f.
   else. o =.  ((3 Y b) assert sfX  (2 Y b) eval :: 0:) sfX @:o f. end. end.
 1 : ('u [ (', o f. lrA , ')')
 )
@@ -128,14 +130,28 @@ if. 1 < # d do. o =.  ( (0 Y d) (2 Y b) eval ]) :: 0: , o f.
 ceach =: 4 : '] x c y' each
 veach =: 4 : '] x v y' each
 
+M =:  1 : 'u`(]`(u hook (;@:linearize@:}.@:]))@.((,.0) -: 0 Y))@.(1 = L.@:])'  NB. handles maybe error chains.
+mkerr2 =: 2 : '(n ;~ ,.@_9:)`1:@.u :: ((13!:11 ; 13!:12)@:(''''"_))' 
+
+vm =: 1 : 0
+a =. typeparser m
+o =. 1:
+for_i. boxopen a do. d =. linearize >^:(1 < L.)^:_ i 
+b=. ({~ ({: d) i.~ {."1) TYPES    NB. index error means type not defined (misspelled?) in this locale.
+if. 1 < # d do. e =. (3 Y b) sprintf {. d
+  o =.  (  (0 Y d) (2 Y b) eval  mkerr2 e ])@:]  ; o f. 
+  else. o =.  ( (2 Y b) eval mkerr2 (3 Y b))@:]  ; o f.  end. end.
+NB.1 : ('u  ]`[@.(1-:])chkerrA (', o f. lrA , ')')
+1 : ('( [: > (<1) -.~ (', o f. lrA , '))`u@.( 1 -: [: *./  1 -: every (', o f. lrA , '))')
+)
 
 iv =: 1 : 0  NB. gives input box to correct validation err if fail.
 a =. typeparser m
 o =. ]
 for_i. boxopen a do. d =. linearize >^:(1 < L.)^:_ i 
 b=. ({~ ({: d) i.~ {."1) TYPES   NB. index error means type not defined (misspelled?) in this locale.
-if. 1 < # d do. 
- o =.  (] ( [: wd2'mb input text "' , (0 Y b) , '" "' , (3 Y b) ,'" *' , ":@:[)`[@.]  (0 Y d) (2 Y b) eval :: 0: ]) @:o f.
+if. 1 < # d do. e =. (3 Y b) sprintf {. d
+ o =.  (] ( [: wd2'mb input text "' , (0 Y b) , '" "' , e ,'" *' , ":@:[)`[@.]  (0 Y d) (2 Y b) eval :: 0: ]) @:o f.
   else. o =.  (] ([:  wd2 'mb input text "' , (0 Y b) , '" "' , (3 Y b) ,'" *' , ":@:[)`[@.]  (2 Y b) eval :: 0:)  @:o f. end. end.
   NB. else. o =.  (] ([: wd2 'mb info " ' , (0 Y b) , '" "' , (3 Y b) ,' " '"_ )@:[^:-.@]  (2 Y b) eval)  @:o f. end. end.
 NB. pD o lrA
@@ -160,3 +176,4 @@ cpV =: 4 : '] x cp y'
 vbV =: 4 : '] x vb y'
 vbs =: 1 : 'u 1 : ''#~ m vb'''  NB. double adverb is compatible with t. instead of coercing, filters valid items to function.
 off =: 1 : 'u  1 : '' hook ]'''  NB. can be used to turn off type system.  redefine any of c, cp, v, iv, vbs to off, and all code will/should work without type checks/actions
+vmV =: 4 : '] x vm y'
