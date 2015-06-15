@@ -3,6 +3,8 @@ The J language is ultradynamic in that functions usually have no named parameter
 
 to use, put all files in your home folder.  If placing them elsewhere, change paths for require lines.  typesys_test file will load the other file.
 
+**definition of a type**
+A type is a name given to any function that returns a boolean classification of its input.  And does so within a general context of guarding input to other functions.
 
 The benefits of a type system include
 
