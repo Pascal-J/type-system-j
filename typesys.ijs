@@ -19,7 +19,7 @@ assignwith_z_ =: 1 : ('y assign u (y~ [ ]) :: ((i.0)"1) 1';':';'y assign x u (y~
 assignwithC_z_ =: 2 : ('y assign u (y~ [ ]) :: (n"_) 1';':';'y assign x u (y~ [ ]) :: (n"_) 1 ')
 NB.uucp=:u:@(7&u:)
 uucp_z_ =:  ucp`]`(ucp@:u:)@.(1 i.~ 2 131072 = 3!:0)"1 :.utf8
-utf8_z_ =: [: ": uucp2`(uucp2 ::u:@:({&a.))@.([: *./ 256&>)^:(1 4 64 e.~ 3!:0)"1 :.uucp
+utf8_z_ =: [: ": uucp`(uucp ::u:@:({&a.))@.([: *./ 256&>)^:(1 4 64 e.~ 3!:0)"1 :.uucp
 futf_z_ =: 3 u: ":@:uucp2 :.fucp
 fucp_z_ =: 3 u: uucp2 :.futf
 
@@ -76,8 +76,12 @@ coclass__OOP 'typesys'
 coinsert 'OOP'
   noP =: 1 : ']'
   sfX =: 1 : '][u' 
+ 
+
  Y =: (&{::)(@:])
+ Y =: 1 : 'if. 3 = 4!:0 < ''u'' do. u@:] else. m {:: ] end.'
  X =: (&{::)(@:[)
+ X =: 1 : 'if. 3 = 4!:0 < ''u'' do. u@:[ else. m {:: [ end.'
 multicut =: [:>[:cut leaf/ ([: <"_1 ({&a.)^:(1 4  e.~ 3!:0)@:linearize@:maybenum@:[) (, <) ]
 unmulticut =: [ (([ [^:('' -: ]) leaf joinstring (L:1)) reduce) ": leaf@:] NB. to get string, level must be = to #@[.  Smaler #@[ can be useful.
 unmulticut =:[ (<"_1@[ ([: >@:(([ [^:('' -: ])L:0 joinstring L:1)&.>/) ,) <@:]) ":L:0@:]
@@ -103,8 +107,9 @@ intx	[: x:@:intify (,&'x')^:(2 = 3!:0)		64  e.~ 3!:0		Must be extended integer (
 intR	roundify					1 4 64  e.~ 3!:0		Must be roundable to interger
 str	":					2 = 3!:0			Must be string
 box	<"_1					0<L.			Must be boxed
-byteVals	a.&i.			(131072=3!:0)+. (2=3!:0)+. 0 255&(inrange :: 0:) *. 1 4 e.~ 3!:0	Must be convertable to byte list
-ascii	utf8`uucp@.(0 255&inrange) 			2 131072 e.~ 3!:0		Must be convertable to ascii/utf8 or superascii
+byteVals	a.&i.				 0 255&(inrange :: 0:) *. 1 4 e.~ 3!:0	Must be convertable to byte list
+ascii	('unconvertable' raiseErr ])`utf8@.(1 4 64 131072 e.~ 3!:0)		2 = 3!:0	Must be convertable to ascii/utf8 
+text	utf8`uucp@.(0 255&inrange) 			2 131072 e.~ 3!:0		Must be convertable to ascii/utf8 or unicode/superascii
 short	fucp			0:`(0 65536&inrange)@.(1 4 64  e.~ 3!:0)	Must be number in range of 0 to 65536. Unicode and negative numbers will be converted.
 no1dim	linearize					[: -.@:notfalse 1 e.~ $	Must not include any shapes of 1
 items	'itemless' raiseErr ]			0 < #			Must not be blank
@@ -129,7 +134,7 @@ each	<@:[ cV each ]		[: *./@:; <@:[ vbV each ]		Must be coerceable to parameter 
 every	<@:[ cV every ]		[ vV"_ >@:]			Must be parameter type %s leaves boxed (use each instead normally)
 d	maybenum@[		0 < #@]				Default value is %s
 dv	4 : '(x eval)"_ y'		0 < #@]				Default value is verb(named if compound) '' %s ''(applied to null) or value of '' %s '' within locale if not specified
-cut	multicut			0<L.@:]				Must be boxed or string will be repeatedly cut by %s (if list must be numberic. if numeric, numbers are ascii values)
+cut	maybenum@:[ multicut ]	0<L.@:]				Must be boxed or string will be repeatedly cut by %s (if list must be numberic. if numeric, numbers are ascii values)
 copies	maybenum@:[ copylist ]	maybenum@:[ copylistV ]		Must have at least as many items as in(%s), and each NUMBER in %s will copy that position (if blank) from the index at that position (if it exists)
 evalto	'unconvertable' raiseErr ]	4 : 'a=. y eval label_.(maybenum x) = 4!:0 <''a'''	Str expression must eval to name class %s. 0 noun, 1 adverb, 2 conjunction, 3 verb
 level	<@:]^:(maybenum@:[ - L.@:])	maybenum@:[ = L.@:]			boxed Level (L.) must be %s .
