@@ -1,4 +1,6 @@
-require jpath '~/typesys.ijs'
+MYDIR =: getpath_j_  '\/' rplc~ > (4!:4<'thisfile'){(4!:3)  thisfile=:'' NB. boilerplate to set the working directory
+require MYDIR , 'typesys.ijs'
+
 
 coclass 'temperature'
 NB. example to modify type system with user types and functions.  Assumes raw data is in Celcius
@@ -23,7 +25,7 @@ NB. must convert text and numbers to Farenheit.  Raw number assumed to be C.  So
 toFaren =: 3 : 'if. (2 = 3!:0) y do. num =. 0 ". ''_1234567890.'' (] -. -.~) y  else. x: inv  32 + 9r5 * y return. end. select. linearize ''fk'' I.@:e. tolower y case. 0 do. num  case. 1 do. x: inv  32 + 9r5 * num - 273.15 case. do. x: inv  32 + 9r5 * num  end.'"1
 toFaren2 =: ([: x: inv  32 + 9r5 * ])"0  NB. simpler if data already coerced to celcius
 
-coclass 'base'
+cocurrent 'base'
 coinsert 'typesys'
 
 NB. extra sample
@@ -80,6 +82,10 @@ testC =: 'no test crashed' [ [: pD@:".@:(pD@:('  ', ":) sfX) each 0 : 0 cutLF@:[
  testf SCRAPEDATA
 )
 
+mkerr_z_=: (((1 1$0)&boxeach)@:) ( :: ((13!:11 ; 13!:12)@:(''"_)))
+mkerr_z_=:  :: ((ERROR ; 13!:11 ; 13!:12)@:(''"_))
+chkerrA_z_ =: (hook ;)(hook }.)(^:((1 1$0) -: >@{.@:]))
+chkerrA_z_ =: `](@.((< ERROR) -: {.@:]))
 
 vmtest =: 'no test crashed' [ [: pD@:".@:(pD@:('  ', ":) sfX) each 0 : 0 cutLF@:[ ]
    ( 2 + mkerr 4)         NB. mkerr creates a maybe value (,. 0) if no error
