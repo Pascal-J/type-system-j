@@ -69,9 +69,9 @@ coinsert 'typesys'  NB. inside a locale you want to use type system
 
 after loading typesys_test.ijs, run
 
-test ''
-testC ''
-vmtest ''
+test ''  
+testC ''  
+vmtest ''  
 
 The commands will display many examples of the type system in a hopefully easy to follow way.
 
